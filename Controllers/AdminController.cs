@@ -13,5 +13,27 @@ namespace RandevuSistemiNew.Controllers
         {
             return View();
         }
+
+        public ActionResult Ayarlar()
+        {
+            return View();
+        }
+
+        public ActionResult Mesajlar()
+        {
+            return View();
+        }
+
+        public ActionResult Randevular()
+        {
+            return View();
+        }
+
+        public ActionResult Doktorlar()
+        {
+            return View();
+        }
+
+        
     }
 }

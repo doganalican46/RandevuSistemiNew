@@ -2061,6 +2061,10 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Admin\Ayarlar.cshtml" />
+    <Content Include="Views\Admin\Mesajlar.cshtml" />
+    <Content Include="Views\Admin\Randevular.cshtml" />
+    <Content Include="Views\Admin\Doktorlar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
