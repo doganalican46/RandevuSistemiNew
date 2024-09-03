@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4cd47e31152047feb1d12df1076ea2bc" Name="Diagram1">
+        <EntityTypeShape EntityType="RandevuSistemiModel.Bolumler" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuSistemiModel.DoktorMusaitligi" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuSistemiModel.Gunler" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuSistemiModel.Randevular" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuSistemiModel.Saatler" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuSistemiModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RandevuSistemiModel.Users" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="RandevuSistemiModel.FK_Randevular_Bolumler" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuSistemiModel.FK_DoktorMusaitligi_Gunler" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuSistemiModel.FK_DoktorMusaitligi_Saatler" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuSistemiModel.FK_DoktorMusaitligi_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="RandevuSistemiModel.FK_Randevular_Users1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

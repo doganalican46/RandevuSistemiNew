@@ -1,0 +1,612 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RandevuSistemiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bolumler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BolumAd" Type="nvarchar" MaxLength="200" />
+          <Property Name="BolumAciklama" Type="nvarchar(max)" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="DoktorMusaitligi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoktorID" Type="int" />
+          <Property Name="GunID" Type="int" />
+          <Property Name="SaatID" Type="int" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Gunler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pazartesi" Type="bit" />
+          <Property Name="Sali" Type="bit" />
+          <Property Name="Carsamba" Type="bit" />
+          <Property Name="Persembe" Type="bit" />
+          <Property Name="Cuma" Type="bit" />
+          <Property Name="Cumartesi" Type="bit" />
+          <Property Name="Pazar" Type="bit" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Randevular">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HastaAd" Type="nvarchar" MaxLength="100" />
+          <Property Name="HastaPhone" Type="nvarchar" MaxLength="15" />
+          <Property Name="HastaMail" Type="nvarchar" MaxLength="100" />
+          <Property Name="BolumID" Type="int" />
+          <Property Name="DoktorID" Type="int" />
+          <Property Name="RandevuTarih" Type="datetime" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Saatler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="09:00-09.30" Type="bit" />
+          <Property Name="09:30-10:00" Type="bit" />
+          <Property Name="10:00-10:30" Type="bit" />
+          <Property Name="10:30-11:00" Type="bit" />
+          <Property Name="11:00-11:30" Type="bit" />
+          <Property Name="11:30-12:00" Type="bit" />
+          <Property Name="12:00-12:30" Type="bit" />
+          <Property Name="12:30-13:00" Type="bit" />
+          <Property Name="13:00-13:30" Type="bit" />
+          <Property Name="13:30-14:00" Type="bit" />
+          <Property Name="14:00-14:30" Type="bit" />
+          <Property Name="14:30-15:00" Type="bit" />
+          <Property Name="15:00-15:30" Type="bit" />
+          <Property Name="15:30-16:00" Type="bit" />
+          <Property Name="16:00-16:30" Type="bit" />
+          <Property Name="16:30-17:00" Type="bit" />
+          <Property Name="17:00-17:30" Type="bit" />
+          <Property Name="17:30-18:00" Type="bit" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fullname" Type="nvarchar" MaxLength="100" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="15" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
+          <Property Name="BolumID" Type="int" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <Association Name="FK_DoktorMusaitligi_Gunler">
+          <End Role="Gunler" Type="Self.Gunler" Multiplicity="0..1" />
+          <End Role="DoktorMusaitligi" Type="Self.DoktorMusaitligi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gunler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DoktorMusaitligi">
+              <PropertyRef Name="GunID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoktorMusaitligi_Saatler">
+          <End Role="Saatler" Type="Self.Saatler" Multiplicity="0..1" />
+          <End Role="DoktorMusaitligi" Type="Self.DoktorMusaitligi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Saatler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DoktorMusaitligi">
+              <PropertyRef Name="SaatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoktorMusaitligi_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="DoktorMusaitligi" Type="Self.DoktorMusaitligi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DoktorMusaitligi">
+              <PropertyRef Name="DoktorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Randevular_Bolumler">
+          <End Role="Bolumler" Type="Self.Bolumler" Multiplicity="0..1" />
+          <End Role="Randevular" Type="Self.Randevular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bolumler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Randevular">
+              <PropertyRef Name="BolumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Randevular_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Randevular" Type="Self.Randevular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Randevular">
+              <PropertyRef Name="DoktorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="RandevuSistemiModelStoreContainer">
+          <EntitySet Name="Bolumler" EntityType="Self.Bolumler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoktorMusaitligi" EntityType="Self.DoktorMusaitligi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gunler" EntityType="Self.Gunler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Randevular" EntityType="Self.Randevular" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Saatler" EntityType="Self.Saatler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DoktorMusaitligi_Gunler" Association="Self.FK_DoktorMusaitligi_Gunler">
+            <End Role="Gunler" EntitySet="Gunler" />
+            <End Role="DoktorMusaitligi" EntitySet="DoktorMusaitligi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoktorMusaitligi_Saatler" Association="Self.FK_DoktorMusaitligi_Saatler">
+            <End Role="Saatler" EntitySet="Saatler" />
+            <End Role="DoktorMusaitligi" EntitySet="DoktorMusaitligi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoktorMusaitligi_Users" Association="Self.FK_DoktorMusaitligi_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DoktorMusaitligi" EntitySet="DoktorMusaitligi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Randevular_Bolumler" Association="Self.FK_Randevular_Bolumler">
+            <End Role="Bolumler" EntitySet="Bolumler" />
+            <End Role="Randevular" EntitySet="Randevular" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Randevular_Users1" Association="Self.FK_Randevular_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Randevular" EntitySet="Randevular" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RandevuSistemiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bolumler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BolumAd" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BolumAciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Randevular" Relationship="Self.FK_Randevular_Bolumler" FromRole="Bolumler" ToRole="Randevular" />
+        </EntityType>
+        <EntityType Name="DoktorMusaitligi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoktorID" Type="Int32" />
+          <Property Name="GunID" Type="Int32" />
+          <Property Name="SaatID" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Gunler" Relationship="Self.FK_DoktorMusaitligi_Gunler" FromRole="DoktorMusaitligi" ToRole="Gunler" />
+          <NavigationProperty Name="Saatler" Relationship="Self.FK_DoktorMusaitligi_Saatler" FromRole="DoktorMusaitligi" ToRole="Saatler" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_DoktorMusaitligi_Users" FromRole="DoktorMusaitligi" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Gunler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pazartesi" Type="Boolean" />
+          <Property Name="Sali" Type="Boolean" />
+          <Property Name="Carsamba" Type="Boolean" />
+          <Property Name="Persembe" Type="Boolean" />
+          <Property Name="Cuma" Type="Boolean" />
+          <Property Name="Cumartesi" Type="Boolean" />
+          <Property Name="Pazar" Type="Boolean" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="DoktorMusaitligi" Relationship="Self.FK_DoktorMusaitligi_Gunler" FromRole="Gunler" ToRole="DoktorMusaitligi" />
+        </EntityType>
+        <EntityType Name="Randevular">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HastaAd" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="HastaPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="HastaMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BolumID" Type="Int32" />
+          <Property Name="DoktorID" Type="Int32" />
+          <Property Name="RandevuTarih" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Bolumler" Relationship="Self.FK_Randevular_Bolumler" FromRole="Randevular" ToRole="Bolumler" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Randevular_Users1" FromRole="Randevular" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Saatler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C09_00_09_30" Type="Boolean" />
+          <Property Name="C09_30_10_00" Type="Boolean" />
+          <Property Name="C10_00_10_30" Type="Boolean" />
+          <Property Name="C10_30_11_00" Type="Boolean" />
+          <Property Name="C11_00_11_30" Type="Boolean" />
+          <Property Name="C11_30_12_00" Type="Boolean" />
+          <Property Name="C12_00_12_30" Type="Boolean" />
+          <Property Name="C12_30_13_00" Type="Boolean" />
+          <Property Name="C13_00_13_30" Type="Boolean" />
+          <Property Name="C13_30_14_00" Type="Boolean" />
+          <Property Name="C14_00_14_30" Type="Boolean" />
+          <Property Name="C14_30_15_00" Type="Boolean" />
+          <Property Name="C15_00_15_30" Type="Boolean" />
+          <Property Name="C15_30_16_00" Type="Boolean" />
+          <Property Name="C16_00_16_30" Type="Boolean" />
+          <Property Name="C16_30_17_00" Type="Boolean" />
+          <Property Name="C17_00_17_30" Type="Boolean" />
+          <Property Name="C17_30_18_00" Type="Boolean" />
+          <NavigationProperty Name="DoktorMusaitligi" Relationship="Self.FK_DoktorMusaitligi_Saatler" FromRole="Saatler" ToRole="DoktorMusaitligi" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fullname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BolumID" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="DoktorMusaitligi" Relationship="Self.FK_DoktorMusaitligi_Users" FromRole="Users" ToRole="DoktorMusaitligi" />
+          <NavigationProperty Name="Randevular" Relationship="Self.FK_Randevular_Users1" FromRole="Users" ToRole="Randevular" />
+        </EntityType>
+        <Association Name="FK_Randevular_Bolumler">
+          <End Role="Bolumler" Type="Self.Bolumler" Multiplicity="0..1" />
+          <End Role="Randevular" Type="Self.Randevular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bolumler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Randevular">
+              <PropertyRef Name="BolumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoktorMusaitligi_Gunler">
+          <End Role="Gunler" Type="Self.Gunler" Multiplicity="0..1" />
+          <End Role="DoktorMusaitligi" Type="Self.DoktorMusaitligi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gunler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DoktorMusaitligi">
+              <PropertyRef Name="GunID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoktorMusaitligi_Saatler">
+          <End Role="Saatler" Type="Self.Saatler" Multiplicity="0..1" />
+          <End Role="DoktorMusaitligi" Type="Self.DoktorMusaitligi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Saatler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DoktorMusaitligi">
+              <PropertyRef Name="SaatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoktorMusaitligi_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="DoktorMusaitligi" Type="Self.DoktorMusaitligi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DoktorMusaitligi">
+              <PropertyRef Name="DoktorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Randevular_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Randevular" Type="Self.Randevular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Randevular">
+              <PropertyRef Name="DoktorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RandevuSistemiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bolumler" EntityType="Self.Bolumler" />
+          <EntitySet Name="DoktorMusaitligi" EntityType="Self.DoktorMusaitligi" />
+          <EntitySet Name="Gunler" EntityType="Self.Gunler" />
+          <EntitySet Name="Randevular" EntityType="Self.Randevular" />
+          <EntitySet Name="Saatler" EntityType="Self.Saatler" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Randevular_Bolumler" Association="Self.FK_Randevular_Bolumler">
+            <End Role="Bolumler" EntitySet="Bolumler" />
+            <End Role="Randevular" EntitySet="Randevular" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoktorMusaitligi_Gunler" Association="Self.FK_DoktorMusaitligi_Gunler">
+            <End Role="Gunler" EntitySet="Gunler" />
+            <End Role="DoktorMusaitligi" EntitySet="DoktorMusaitligi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoktorMusaitligi_Saatler" Association="Self.FK_DoktorMusaitligi_Saatler">
+            <End Role="Saatler" EntitySet="Saatler" />
+            <End Role="DoktorMusaitligi" EntitySet="DoktorMusaitligi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoktorMusaitligi_Users" Association="Self.FK_DoktorMusaitligi_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DoktorMusaitligi" EntitySet="DoktorMusaitligi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Randevular_Users1" Association="Self.FK_Randevular_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Randevular" EntitySet="Randevular" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(RandevuSistemiModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(RandevuSistemiModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RandevuSistemiModelStoreContainer" CdmEntityContainer="RandevuSistemiEntities">
+          <EntitySetMapping Name="Bolumler">
+            <EntityTypeMapping TypeName="RandevuSistemiModel.Bolumler">
+              <MappingFragment StoreEntitySet="Bolumler">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BolumAd" ColumnName="BolumAd" />
+                <ScalarProperty Name="BolumAciklama" ColumnName="BolumAciklama" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoktorMusaitligi">
+            <EntityTypeMapping TypeName="RandevuSistemiModel.DoktorMusaitligi">
+              <MappingFragment StoreEntitySet="DoktorMusaitligi">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DoktorID" ColumnName="DoktorID" />
+                <ScalarProperty Name="GunID" ColumnName="GunID" />
+                <ScalarProperty Name="SaatID" ColumnName="SaatID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gunler">
+            <EntityTypeMapping TypeName="RandevuSistemiModel.Gunler">
+              <MappingFragment StoreEntitySet="Gunler">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Pazartesi" ColumnName="Pazartesi" />
+                <ScalarProperty Name="Sali" ColumnName="Sali" />
+                <ScalarProperty Name="Carsamba" ColumnName="Carsamba" />
+                <ScalarProperty Name="Persembe" ColumnName="Persembe" />
+                <ScalarProperty Name="Cuma" ColumnName="Cuma" />
+                <ScalarProperty Name="Cumartesi" ColumnName="Cumartesi" />
+                <ScalarProperty Name="Pazar" ColumnName="Pazar" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Randevular">
+            <EntityTypeMapping TypeName="RandevuSistemiModel.Randevular">
+              <MappingFragment StoreEntitySet="Randevular">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="HastaAd" ColumnName="HastaAd" />
+                <ScalarProperty Name="HastaPhone" ColumnName="HastaPhone" />
+                <ScalarProperty Name="HastaMail" ColumnName="HastaMail" />
+                <ScalarProperty Name="BolumID" ColumnName="BolumID" />
+                <ScalarProperty Name="DoktorID" ColumnName="DoktorID" />
+                <ScalarProperty Name="RandevuTarih" ColumnName="RandevuTarih" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Saatler">
+            <EntityTypeMapping TypeName="RandevuSistemiModel.Saatler">
+              <MappingFragment StoreEntitySet="Saatler">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="C09_00_09_30" ColumnName="09:00-09.30" />
+                <ScalarProperty Name="C09_30_10_00" ColumnName="09:30-10:00" />
+                <ScalarProperty Name="C10_00_10_30" ColumnName="10:00-10:30" />
+                <ScalarProperty Name="C10_30_11_00" ColumnName="10:30-11:00" />
+                <ScalarProperty Name="C11_00_11_30" ColumnName="11:00-11:30" />
+                <ScalarProperty Name="C11_30_12_00" ColumnName="11:30-12:00" />
+                <ScalarProperty Name="C12_00_12_30" ColumnName="12:00-12:30" />
+                <ScalarProperty Name="C12_30_13_00" ColumnName="12:30-13:00" />
+                <ScalarProperty Name="C13_00_13_30" ColumnName="13:00-13:30" />
+                <ScalarProperty Name="C13_30_14_00" ColumnName="13:30-14:00" />
+                <ScalarProperty Name="C14_00_14_30" ColumnName="14:00-14:30" />
+                <ScalarProperty Name="C14_30_15_00" ColumnName="14:30-15:00" />
+                <ScalarProperty Name="C15_00_15_30" ColumnName="15:00-15:30" />
+                <ScalarProperty Name="C15_30_16_00" ColumnName="15:30-16:00" />
+                <ScalarProperty Name="C16_00_16_30" ColumnName="16:00-16:30" />
+                <ScalarProperty Name="C16_30_17_00" ColumnName="16:30-17:00" />
+                <ScalarProperty Name="C17_00_17_30" ColumnName="17:00-17:30" />
+                <ScalarProperty Name="C17_30_18_00" ColumnName="17:30-18:00" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RandevuSistemiModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="RandevuSistemiModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="BolumID" ColumnName="BolumID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="RandevuSistemiModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="RandevuSistemiModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="RandevuSistemiModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="RandevuSistemiModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RandevuSistemiModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="RandevuSistemiModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RandevuSistemiModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="RandevuSistemiModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="RandevuSistemiModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

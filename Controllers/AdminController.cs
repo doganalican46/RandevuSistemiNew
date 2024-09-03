@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RandevuSistemiNew.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,7 +9,7 @@ namespace RandevuSistemiNew.Controllers
 {
     public class AdminController : Controller
     {
-        RandevuSistemiEntity db = new RandevuSistemiEntity();
+        RandevuSistemiEntities db = new RandevuSistemiEntities();
 
         // GET: Admin
         public ActionResult Index()
@@ -49,10 +50,10 @@ namespace RandevuSistemiNew.Controllers
         [HttpGet]
         public ActionResult YeniUsers()
         {
-            List<SelectListItem> Category = (from i in db.Category.Where(k => k.Status == true).ToList()
+            List<SelectListItem> Category = (from i in db.Bolumler.Where(k => k.Status == true).ToList()
                                              select new SelectListItem
                                              {
-                                                 Text = i.CategoryName,
+                                                 Text = i.BolumAd,
                                                  Value = i.ID.ToString()
                                              }).ToList();
             ViewBag.Category = Category;
@@ -62,15 +63,15 @@ namespace RandevuSistemiNew.Controllers
         [HttpPost]
         public ActionResult YeniUsers(Users y, int selectedCategoryID)
         {
-            List<SelectListItem> Category = (from i in db.Category.Where(k => k.Status == true).ToList()
+            List<SelectListItem> Category = (from i in db.Bolumler.Where(k => k.Status == true).ToList()
                                              select new SelectListItem
                                              {
-                                                 Text = i.CategoryName,
+                                                 Text = i.BolumAd,
                                                  Value = i.ID.ToString()
                                              }).ToList();
             ViewBag.Category = Category;
 
-            y.CategoryID = selectedCategoryID;
+            y.BolumID = selectedCategoryID;
 
             db.Users.Add(y);
             db.SaveChanges();
@@ -94,10 +95,10 @@ namespace RandevuSistemiNew.Controllers
                 return HttpNotFound();
             }
 
-            List<SelectListItem> Category = (from i in db.Category.Where(k => k.Status == true).ToList()
+            List<SelectListItem> Category = (from i in db.Bolumler.Where(k => k.Status == true).ToList()
                                              select new SelectListItem
                                              {
-                                                 Text = i.CategoryName,
+                                                 Text = i.BolumAd,
                                                  Value = i.ID.ToString()
                                              }).ToList();
             ViewBag.Category = Category;
@@ -114,12 +115,11 @@ namespace RandevuSistemiNew.Controllers
                 var Users = db.Users.Find(y.ID);
                 if (Users != null)
                 {
-                    Users.Title = y.Title;
-                    Users.SubTitle = y.SubTitle; // SubTitle eklemeyi unutmayın
-                    Users.Description = y.Description;
-                    Users.Images = y.Images;
-                    Users.Link = y.Link; // Link eklemeyi unutmayın
-                    Users.CategoryID = y.CategoryID; // CategoryID doğrudan atanabilir
+                    Users.Fullname = y.Fullname;
+                    Users.Mail= y.Mail; 
+                    Users.Phone = y.Phone;
+                    Users.Role= y.Role;
+                    Users.BolumID = y.BolumID; 
                     Users.Status = y.Status;
 
                     db.SaveChanges();
@@ -129,10 +129,10 @@ namespace RandevuSistemiNew.Controllers
             }
 
             // Eğer model geçerli değilse kategorileri tekrar doldurup view'yi geri döneriz
-            List<SelectListItem> Category = (from i in db.Category.Where(k => k.Status == true).ToList()
+            List<SelectListItem> Category = (from i in db.Bolumler.Where(k => k.Status == true).ToList()
                                              select new SelectListItem
                                              {
-                                                 Text = i.CategoryName,
+                                                 Text = i.BolumAd,
                                                  Value = i.ID.ToString()
                                              }).ToList();
             ViewBag.Category = Category;

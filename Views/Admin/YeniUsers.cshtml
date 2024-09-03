@@ -1,0 +1,60 @@
+﻿@model RandevuSistemiNew.Models.Users
+
+@{
+    ViewBag.Title = "YeniUsers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card mt-5">
+    <div class="card-header">
+        <h2><b>Kullanıcılar / </b>Yeni Kullanıcı Ekle</h2>
+    </div>
+    <form method="post" class="form-group">
+        <div class="card-body">
+            <label>Ad-Soyad:</label>
+            <input type="text" name="Fullname" class="form-control" required="" />
+            <br />
+            <label>E-Mail:</label>
+            <input type="text" name="Mail" class="form-control" required="" />
+            <br />
+            <label>Telefon No:</label>
+            <input type="text" name="Phone" class="form-control" />
+            <br />
+            <label>Şifre:</label>
+            <input type="text" name="Password" class="form-control" />
+            <br />
+            <label for="tur">Kullanıcı Rolü:</label>
+            <select name="Role" id="Role" class="form-control" onchange="toggleSpecialty()">
+                <option selected disabled>Kullanıcı rolünü seçin</option>
+                <option value="admin">Admin</option>
+                <option value="doktor">Doktor</option>
+                <option value="hemsire">Hemşire</option>
+            </select>
+            <br />
+            <div id="specialtyDiv" style="display:none;">
+                <label for="Category">Doktor Uzmanlık Alanı:</label>
+                @Html.DropDownList("selectedCategoryID", (List<SelectListItem>)ViewBag.Category, "Uzmanlık Alanı Seçin", new { @class = "form-control" })
+            </div>
+
+            <input type="hidden" name="Status" value="true" />
+        </div>
+
+        <div class="card-footer">
+            <br />
+            <a href="/Admin/Users/" class="btn btn-danger">Vazgeç</a>
+            <button class="btn btn-primary">Ekle</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleSpecialty() {
+        var role = document.getElementById("Role").value;
+        var specialtyDiv = document.getElementById("specialtyDiv");
+        if (role === "doktor") {
+            specialtyDiv.style.display = "block";
+        } else {
+            specialtyDiv.style.display = "none";
+        }
+    }
+</script>
