@@ -1,8 +1,78 @@
-﻿
+﻿@model RandevuSistemiNew.Models.Users
 @{
     ViewBag.Title = "UsersGetir";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<div class="card mt-5" style="margin: 20px;">
+    <div class="card-header">
+        <h2><b>Kullanıcılar / </b>Kullanıcı Güncelle</h2>
+    </div>
+    @using (Html.BeginForm("UsersGuncelle", "Admin", FormMethod.Post))
+    {
+        <div class="form-group">
 
-<h2>UsersGetir</h2>
+            <div class="card-body">
+                @Html.HiddenFor(k => k.ID)
+                <br />
+                <label>Ad-Soyad:</label>
+                @Html.TextBoxFor(k => k.Fullname, new { @class = "form-control" })
+                <br />
+                <label>E-Mail:</label>
+                @Html.TextBoxFor(k => k.Mail, new { @class = "form-control" })
+                <br />
+                <label>Telefon No:</label>
+                @Html.TextBoxFor(k => k.Phone, new { @class = "form-control" })
+                <br />
+                <label>Şifre:</label>
+                @Html.TextBoxFor(k => k.Password, new { @class = "form-control" })
+                <br />
+                <label>Kullanıcı Rolü:</label>
+                @Html.DropDownListFor(k => k.Role, new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Admin", Value = "admin" },
+                    new SelectListItem { Text = "Doktor", Value = "doktor" },
+                    new SelectListItem { Text = "Hemşire", Value = "hemsire" }
+                }, "Kullanıcı rolünü seçin", new { @class = "form-control", id = "role", onchange = "toggleSpecialty()" })
+                <br />
+                <div id="specialtyDiv" style="display:none;">
+                    <label>Uzmanlık Alanı:</label>
+                    @Html.DropDownListFor(k => k.BolumID, (List<SelectListItem>)ViewBag.Category, "Uzmanlık Alanı Seçin", new { @class = "form-control", id = "BolumID" })
+                </div>
+                <br />
+                <label>Aktiflik Durumu:</label>
+                @Html.DropDownListFor(k => k.Status, new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "ACTIVE", Value = "true" },
+                    new SelectListItem { Text = "PASSIVE", Value = "false" }
+                }, new { @class = "form-control" })
+            </div>
 
+            <div class="card-footer">
+
+                <a href="/Admin/Users/" class="btn btn-danger">CANCEL</a>
+                <button class="btn btn-success">UPDATE</button>
+            </div>
+
+        </div>
+    }
+</div>
+
+<script>
+    function toggleSpecialty() {
+        var role = document.getElementById("role").value;
+        var specialtyDiv = document.getElementById("specialtyDiv");
+        var bolumID = document.getElementById("BolumID");
+
+        if (role === "doktor") {
+            specialtyDiv.style.display = "block";
+        } else {
+            specialtyDiv.style.display = "none";
+            bolumID.selectedIndex = 0; // Uzmanlık Alanı seçimini boşalt
+        }
+    }
+
+    // Sayfa yüklendiğinde rolü kontrol et ve Uzmanlık Alanı'nı göster veya gizle
+    document.addEventListener("DOMContentLoaded", function () {
+        toggleSpecialty();
+    });
+</script>
