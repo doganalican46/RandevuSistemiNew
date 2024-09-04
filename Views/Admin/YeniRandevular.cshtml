@@ -1,0 +1,127 @@
+﻿@model RandevuSistemiNew.Models.Randevular
+
+@{
+    ViewBag.Title = "YeniRandevular";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card mt-5">
+    <div class="card-header">
+        <h2><b>Randevular / </b>Yeni Randevu Oluştur</h2>
+    </div>
+    <form method="post" class="form-group">
+        <div class="card-body">
+            <label>Hasta Ad-Soyad:</label>
+            <input type="text" name="HastaAd" class="form-control" required="" />
+            <br />
+            <label>Hasta Telefon:</label>
+            <input type="text" name="HastaPhone" class="form-control" required="" />
+            <br />
+            <label>Hasta Mail:</label>
+            <input type="text" name="HastaMail" class="form-control" />
+            <br />
+
+            <label for="Category">Doktor Uzmanlık Alanı:</label>
+            @Html.DropDownList("selectedCategoryID", (List<SelectListItem>)ViewBag.Category, "Uzmanlık Alanı Seçin", new { @class = "form-control", @id = "CategoryDropdown" })
+            <br />
+
+            <label for="Doktor">Doktor Seçiniz:</label>
+            @Html.DropDownList("selectedDoktorID", new List<SelectListItem>(), "Doktor Seçiniz", new { @class = "form-control", @id = "DoktorDropdown" })
+            <br />
+
+            <label for="RandevuTarih">Tarih ve Saat:</label>
+            <input type="datetime-local" id="RandevuTarih" name="RandevuTarih" class="form-control" />
+            <br />
+            <p id="selectedDate"></p>
+
+
+            <input type="hidden" name="Status" value="true" />
+        </div>
+
+        <div class="card-footer">
+            <a href="/Admin/Randevular/" class="btn btn-danger">Vazgeç</a>
+            <button class="btn btn-primary">Ekle</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#CategoryDropdown').change(function() {
+            var categoryID = $(this).val();
+            $.ajax({
+                url: '@Url.Action("GetDoktorsByCategory", "Admin")',
+                type: 'GET',
+                data: { categoryID: categoryID },
+                success: function(doktors) {
+                    var doktorDropdown = $('#DoktorDropdown');
+                    doktorDropdown.empty();
+
+                    if (doktors.length > 0) {
+                        $.each(doktors, function(index, doktor) {
+                            doktorDropdown.append($('<option>', {
+                                value: doktor.Value,
+                                text: doktor.Text
+                            }));
+                        });
+                    } else {
+                        doktorDropdown.append($('<option>', {
+                            text: 'Bu bölümde şu an aktif bir doktor bulunmamaktadır',
+                            value: ''
+                        }));
+                    }
+                },
+                error: function() {
+                    alert('Doktor listesi yüklenirken bir hata oluştu.');
+                }
+            });
+        });
+    });
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var dateInput = document.getElementById('RandevuTarih');
+        var selectedDateDisplay = document.getElementById('selectedDate');
+
+        // Geçmiş tarihleri engelleme
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = today.getMonth() + 1; // Ocak 0'dan başlar
+        var dd = today.getDate();
+        var hh = today.getHours();
+        var min = today.getMinutes();
+        if (mm < 10) { mm = '0' + mm; }
+        if (dd < 10) { dd = '0' + dd; }
+        if (hh < 10) { hh = '0' + hh; }
+        if (min < 10) { min = '0' + min; }
+
+        var minDateTime = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + min;
+        dateInput.setAttribute('min', minDateTime);
+
+        // Hafta sonlarını engelleme
+        dateInput.addEventListener('change', function () {
+            var selectedDate = new Date(this.value);
+            var day = selectedDate.getDay();
+
+            if (day === 0 || day === 6) { // Pazar = 0, Cumartesi = 6
+                alert("Hafta sonu randevu oluşturulamaz.");
+                this.value = ""; // Seçimi temizle
+            } else {
+                // Seçilen tarihi ve saati Türkçe formatta göster
+                var monthNames = [
+                    "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+                    "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+                ];
+                var month = monthNames[selectedDate.getMonth()];
+                var dateString = selectedDate.getDate() + " " + month + " " + selectedDate.getFullYear() + ", " +
+                    selectedDate.getHours() + ":" + ("0" + selectedDate.getMinutes()).slice(-2);
+                selectedDateDisplay.textContent = "Seçilen Tarih ve Saat: " + dateString;
+            }
+        });
+    });
+
+
+</script>
+

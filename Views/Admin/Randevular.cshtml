@@ -1,8 +1,59 @@
-﻿
+﻿@using RandevuSistemiNew.Models
+@model List<Randevular>
 @{
     ViewBag.Title = "Randevular";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Randevular</h2>
+<div class="card mt-5">
+    <div class="card-header ">
+        <h2><b>Randevular / </b>Randevu Listesi</h2>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table id="dataTable" class="table table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>HASTA</th>
+                        <th>TELEFON</th>
+                        <th>BÖLÜM</th>
+                        <th>DOKTOR</th>
+                        <th>TARİH</th>
+                        <th>DURUM</th>
+                        <th>İŞLEM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Randevular in Model)
+                    {
+                        <tr>
+
+                            <td>@Randevular.HastaAd</td>
+                            <td>@Randevular.HastaPhone</td>
+                            <td>@Randevular.Bolumler.BolumAd</td>
+                            <td>@Randevular.Users.Fullname</td>
+                            <td>@Randevular.RandevuTarih</td>
+
+                            <td style="color: @(Randevular.Status.HasValue && Randevular.Status.Value ? "green" : "red")">
+                                @(Randevular.Status.HasValue ? (Randevular.Status.Value ? "AKTİF" : "PASİF") : "N/A")
+                            </td>
+
+                            <td>
+                                <a href="/Admin/RandevularSil/@Randevular.ID" class="btn btn-danger" onclick="return confirm('Gerçekten silmek istiyor musunuz?')">SİL</a>
+                                <a href="/Admin/RandevularGetir/@Randevular.ID" class="btn btn-primary">GÜNCELLE</a>
+                                @*<a href="/Admin/RandevularDetay/@Randevular.ID" class="btn btn-success">DETAY</a>*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <a href="/Admin/YeniRandevular/" class="btn btn-warning">Yeni Randevu Oluştur</a>
+    </div>
+</div>
 

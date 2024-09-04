@@ -1,0 +1,90 @@
+﻿@model RandevuSistemiNew.Models.Randevular
+@{
+    ViewBag.Title = "RandevularGetir";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card mt-5" style="margin: 20px;">
+    <div class="card-header">
+        <h2><b>Randevular / </b>Randevu Güncelle</h2>
+    </div>
+    @using (Html.BeginForm("RandevularGuncelle", "Admin", FormMethod.Post))
+    {
+        <div class="form-group">
+            <div class="card-body">
+                @Html.HiddenFor(k => k.ID)
+                <br />
+                <label>Ad-Soyad:</label>
+                @Html.TextBoxFor(k => k.HastaAd, new { @class = "form-control" })
+                <br />
+                <label>E-Mail:</label>
+                @Html.TextBoxFor(k => k.HastaMail, new { @class = "form-control" })
+                <br />
+                <label>Telefon No:</label>
+                @Html.TextBoxFor(k => k.HastaPhone, new { @class = "form-control" })
+                <br />
+
+                <label>Randevu Bölümü:</label>
+                @Html.DropDownListFor(k => k.BolumID, (List<SelectListItem>)ViewBag.Category, "Uzmanlık Alanı Seçiniz", new { @class = "form-control", id = "BolumID" })
+                <br />
+
+                <label>Doktor Seçin:</label>
+                @Html.DropDownListFor(k => k.DoktorID, (List<SelectListItem>)ViewBag.Doktor, "Doktor Seçiniz", new { @class = "form-control", id = "DoktorID" })
+                <br />
+
+                <label>Randevu Tarihi:</label>
+                @Html.TextBoxFor(k => k.RandevuTarih, new { @class = "form-control" })
+                <br />
+
+                <label>Aktiflik Durumu:</label>
+                @Html.DropDownListFor(k => k.Status, new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "ACTIVE", Value = "true" },
+                    new SelectListItem { Text = "PASSIVE", Value = "false" }
+                }, new { @class = "form-control" })
+            </div>
+
+            <div class="card-footer">
+                <a href="/Admin/Randevular/" class="btn btn-danger">CANCEL</a>
+                <button class="btn btn-success">UPDATE</button>
+            </div>
+        </div>
+    }
+    @Html.HiddenFor(k => k.BolumID)
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#BolumID').change(function() {
+        var categoryID = $(this).val();
+        $.ajax({
+            url: '@Url.Action("GetDoktorsByCategory", "Admin")',
+            type: 'GET',
+            data: { categoryID: categoryID },
+            success: function(doktors) {
+                var doktorDropdown = $('#DoktorID');
+                doktorDropdown.empty();
+
+                if (doktors.length > 0) {
+                    $.each(doktors, function(index, doktor) {
+                        doktorDropdown.append($('<option>', {
+                            value: doktor.Value,
+                            text: doktor.Text
+                        }));
+                    });
+                } else {
+                    doktorDropdown.append($('<option>', {
+                        text: 'Bu bölümde şu an aktif bir doktor bulunmamaktadır',
+                        value: ''
+                    }));
+                }
+            },
+            error: function() {
+                alert('Doktor listesi yüklenirken bir hata oluştu.');
+            }
+        });
+    });
+});
+
+</script>
