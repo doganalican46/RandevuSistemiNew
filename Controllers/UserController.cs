@@ -11,6 +11,7 @@ namespace RandevuSistemiNew.Controllers
     {
         RandevuSistemiEntities db = new RandevuSistemiEntities();
 
+        //Users tablosuna Image ekle ve ekranlarda görüntüle
         private List<SelectListItem> GetCategoryList()
         {
             return db.Bolumler.Where(k => k.Status == true)

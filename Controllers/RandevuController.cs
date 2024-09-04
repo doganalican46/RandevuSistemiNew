@@ -10,6 +10,9 @@ namespace RandevuSistemiNew.Controllers
     public class RandevuController : Controller
     {
         RandevuSistemiEntities db = new RandevuSistemiEntities();
+        //Randevular sayfasında aktif randevu için hatıratma maili gönder
+        //Randevu oluştuğunda mail gönder
+        //Randevu update edildiğinde ve silindiğinde de bildirim gönder
 
         private List<SelectListItem> GetCategoryList()
         {
@@ -46,8 +49,21 @@ namespace RandevuSistemiNew.Controllers
         public ActionResult Randevular()
         {
             var randevular = db.Randevular.ToList();
+            var currentDateTime = DateTime.Now;
+
+            foreach (var randevu in randevular)
+            {
+                if (randevu.RandevuTarih < currentDateTime && randevu.Status == true)
+                {
+                    randevu.Status = false;
+                    db.Entry(randevu).State = System.Data.Entity.EntityState.Modified;
+                }
+            }
+
+            db.SaveChanges();
             return View(randevular);
         }
+
 
         //[Authorize]
         [HttpGet]

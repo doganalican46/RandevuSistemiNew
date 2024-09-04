@@ -11,6 +11,11 @@ namespace RandevuSistemiNew.Controllers
     {
         RandevuSistemiEntities db = new RandevuSistemiEntities();
         // GET: Admin
+        //ana sayfa için istatistikler ekle : aktif randevu sayısı, toplam randevu sayısı, toplam doktor ve hasta sayısı 
+        //en çok ziyaret edilen doktor en çok çalışan doktor  en çok randevu olan gün
+        //rapor çıkart düğmesine basınca pdf e çevir rapor halinde masaüstüne kaydet
+        //  ayarlar sayfası ayarla giriş yapan kullanıcı bilgisi ile ayarlansın
+
         public ActionResult Index()
         {
             return View();
@@ -50,26 +55,12 @@ namespace RandevuSistemiNew.Controllers
             return View();
         }
 
-        public ActionResult Mesajlar()
-        {
-            return View();
-        }
 
 
 
 
 
 
-        public ActionResult Doktorlar()
-        {
-            return View();
-        }
-
-
-
-        
-
-        //---------------------Users End----------------------//
 
 
     }
