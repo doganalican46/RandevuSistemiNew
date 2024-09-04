@@ -39,7 +39,7 @@
         </div>
 
         <div class="card-footer">
-            <a href="/Admin/Randevular/" class="btn btn-danger">Vazgeç</a>
+            <a href="/Randevu/Randevular/" class="btn btn-danger">Vazgeç</a>
             <button class="btn btn-primary">Ekle</button>
         </div>
     </form>
@@ -51,7 +51,7 @@
         $('#CategoryDropdown').change(function() {
             var categoryID = $(this).val();
             $.ajax({
-                url: '@Url.Action("GetDoktorsByCategory", "Admin")',
+                url: '@Url.Action("GetDoktorsByCategory", "Randevu")',
                 type: 'GET',
                 data: { categoryID: categoryID },
                 success: function(doktors) {
