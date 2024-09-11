@@ -2152,6 +2152,7 @@
     <Content Include="Views\User\Users.cshtml" />
     <Content Include="Views\User\YeniUsers.cshtml" />
     <Content Include="Views\User\UsersGetir.cshtml" />
+    <Content Include="Views\User\UsersHemsire.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

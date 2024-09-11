@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -166,6 +167,42 @@ namespace RandevuSistemiNew.Controllers
 
             return View("RandevularGetir", y);
         }
+
+        public ActionResult RandevularHatirlat(int id)
+        {
+            var randevu = db.Randevular.Find(id);
+            if (randevu == null)
+            {
+                return HttpNotFound();
+            }
+
+            try
+            {
+                SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential("doganalican1905@gmail.com", "UygulamaŞifresiBuraya");
+                client.EnableSsl = true;
+
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress("doganalican1905@gmail.com");
+                mailMessage.To.Add(randevu.HastaMail);
+                mailMessage.Subject = "Randevu Hatırlatma";
+
+                string body = $"Sayın {randevu.HastaAd}, {randevu.RandevuTarih} tarihinde {randevu.Bolumler.BolumAd} için doktor {randevu.Users.Fullname}'ye randevunuz bulunmaktadır. Hatırlatmak isteriz. Teşekkürler, iyi günler.";
+                mailMessage.Body = body;
+
+                client.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "E-posta gönderimi sırasında bir hata oluştu: " + ex.Message;
+                return View(randevu);
+            }
+
+            return RedirectToAction("Randevular");
+        }
+
+
 
         public JsonResult GetDoktorsByCategory(int categoryID)
         {

@@ -1,22 +1,16 @@
 ﻿@using RandevuSistemiNew.Models
 @model List<Users>
 @{
-    ViewBag.Title = "Users";
+    ViewBag.Title = "UsersHemsire";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<!-- Page Heading -->
-<!--<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Kullanıcılar</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-download fa-sm text-white-50"></i> Rapor Al
-    </a>
-</div>-->
+
 
 
 <div class="card mt-5">
     <div class="card-header ">
-        <h2><b>Doktorlar / </b>Doktor Listesi</h2>
+        <h2><b>Hemşireler / </b>Hemşire Listesi</h2>
     </div>
 
     <div class="card-body">
@@ -26,7 +20,6 @@
                 <thead>
                     <tr>
                         <th>AD-SOYAD</th>
-                        <th>BOLUM</th>
                         <th>TELEFON</th>
                         <th>DURUM</th>
                         <th>İŞLEM</th>
@@ -38,7 +31,6 @@
                         <tr>
 
                             <td>@Users.Fullname</td>
-                            <td>@Users.BolumID.ToString()</td>
                             <td>@Users.Phone</td>
                             <td style="color: @(Users.Status.HasValue && Users.Status.Value ? "green" : "red")">
                                 @(Users.Status.HasValue ? (Users.Status.Value ? "AKTİF" : "PASİF") : "N/A")
@@ -57,9 +49,10 @@
     </div>
 
     <div class="card-footer">
-        <a href="/User/YeniUsers/" class="btn btn-warning">Yeni Doktor Ekle</a>
+        <a href="/User/YeniUsers/" class="btn btn-warning">Yeni Hemşire Ekle</a>
     </div>
 </div>
+
 
 
 

@@ -46,8 +46,14 @@ namespace RandevuSistemiNew.Controllers
         //[Authorize
         public ActionResult Users()
         {
-            var Users = db.Users.ToList();
+            var Users = db.Users.Where(k => k.Status == true && k.Role == "doktor").ToList();
             return View(Users);
+        }
+
+        public ActionResult UsersHemsire()
+        {
+            var UsersHemsire = db.Users.Where(k => k.Status == true && k.Role == "hemsire").ToList();
+            return View(UsersHemsire);
         }
         //[Authorize
         [HttpGet]
